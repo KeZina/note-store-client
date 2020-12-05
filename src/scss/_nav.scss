@@ -1,0 +1,20 @@
+@mixin nav($color-l, $color-m, $color-o) {
+    nav {
+        position: fixed;
+        top: 0;
+        width: 100vw;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        min-height: 3em;
+        background-color: $color-o;
+        box-shadow: 0 0 .5em .1em $color-m;
+        z-index: 5;
+    }
+    .nav-link {
+        font-size: 1.2em;
+        color: white;
+        padding: 0 1vw;
+        cursor: pointer;
+    }
+}

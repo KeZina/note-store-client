@@ -1,29 +1,42 @@
-import { Alert, Button, Container, Nav } from 'react-bootstrap';
+import { useMemo } from "react";
+import { Route, Switch } from "react-router-dom";
+import useNote from "../hooks/useNote";
+import useUser from "../hooks/useUser";
+import { NoteContext, UserContext } from "../utils/context";
+import InitialLayout from "./InitialLayout";
+import Loading from "./Loading";
+import Login from "./Login";
+import Nav from "./Nav";
+import Note from "./note/Note";
+import NoteList from "./note/NoteList";
 
 const App = () => {
+  const user = useUser();
+  const note = useNote(user);
+
+  const isLoading = useMemo(
+    () => {
+      if(user.isLoading || note.isLoading) return true;
+    }, 
+    [
+      user.isLoading, 
+      note.isLoading
+    ]
+  )
+
   return (
-    <div className="App"> 
-      <Nav
-        activeKey="/home"
-        onSelect={(selectedKey) => alert(`selected ${selectedKey}`)}
-      >
-        <Nav.Item>
-          <Nav.Link href="/home">Active</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="link-1">Link</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="link-2">Link</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="disabled" disabled>
-            Disabled
-          </Nav.Link>
-        </Nav.Item>
-      </Nav>
-      <Button>Danger!</Button>
-    </div>
+    <UserContext.Provider value = {user}>
+      <NoteContext.Provider value = {note}>
+        <Switch>
+          <Route exact path = '/' component = {InitialLayout} />
+          <Route exact path = '/user/login' component = {Login} />
+          <Route exact path = '/note/note:noteId' component = {Note} />
+          <Route exact path = '/note/list' component = {NoteList} />
+        </Switch>
+        <Nav />
+        <Loading isLoading = {isLoading} />
+      </NoteContext.Provider>
+    </UserContext.Provider>
   );
 }
 

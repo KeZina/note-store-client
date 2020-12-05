@@ -1,0 +1,17 @@
+@mixin loading($color-l, $color-m, $color-o) {
+    .loading {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: rgba($color-m, $alpha: .5);
+        z-index: 15;
+        h1 {
+            color: $color-m;
+            margin: 35vh auto 0;
+            font-size: 6em;
+            text-align: center;
+        }
+    }
+}

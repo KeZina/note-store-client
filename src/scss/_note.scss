@@ -1,0 +1,22 @@
+@mixin note($color-l, $color-m, $color-o) {
+    .note-container {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 3vh;
+        z-index: 1;
+        box-shadow: 0 0 .2em .05em $color-o;
+        span:first-child {
+            width: 35vw;
+        }
+        span {
+            font-size: 1.1em;
+            padding: .5vh 1vw;
+        }
+        a {
+            font-size: 1.2em;
+            padding: .5vh 1vw;
+            color: $color-o;
+            background-color: $color-l;
+        }
+    }
+}
