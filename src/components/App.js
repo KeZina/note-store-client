@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import useNote from "../hooks/useNote";
 import useUser from "../hooks/useUser";
 import { NoteContext, UserContext } from "../utils/context";
+import ChangePass from "./ChangePass";
 import InitialLayout from "./InitialLayout";
 import Loading from "./Loading";
 import Login from "./Login";
@@ -30,6 +31,7 @@ const App = () => {
         <Switch>
           <Route exact path = '/' component = {InitialLayout} />
           <Route exact path = '/user/login' component = {Login} />
+          <Route exact path = '/user/change-pass' component = {ChangePass} />
           <Route exact path = '/note/note:noteId' component = {Note} />
           <Route exact path = '/note/list' component = {NoteList} />
         </Switch>

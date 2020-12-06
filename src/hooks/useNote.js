@@ -18,6 +18,31 @@ const useNote = (user) => {
         setIsNew(false);
     }
 
+    const getNote = async () => {
+        setIsLoading(true);
+        const noteId = history.location.pathname.match(/\/note\/note_(.*)/);
+        if(!noteId) {
+            setIsLoading(false);
+            return;
+        }
+
+        const response = await axios.get('/note/get-note', {
+                headers: {note: noteId[1]}
+        });
+
+        const {noteData, message, status} = await response.data;
+    
+        user.checkJwtExpired(message);
+
+        if(status === 0) alert(message.message);
+        if(noteData) {
+            setTitle(noteData.title);
+            setContent(noteData.content);
+        }
+        
+        setIsLoading(false);
+    }
+
     const createNote = async () => {
         setIsLoading(true);
         const response = await axios.post('/note/note-create', {
@@ -61,36 +86,33 @@ const useNote = (user) => {
         history.push('/note/list');
     }
 
+    const deleteNote = async (title, noteId) => {
+        const isAgree = window.confirm(`Do you really want to delete note ${title}?`)
+        if(!isAgree) return;
+
+        setIsLoading(true);
+        const response = await axios.post('/note/note-delete', {
+            token: localStorage.getItem('token'),
+            name: user.name,
+            noteId
+        });
+
+        const {list, message, status} = await response.data;
+
+        user.checkJwtExpired(message);
+
+        if(status === 0) alert(message.message);
+        if(list) setNoteList(list);
+
+        refreshNote();
+        setIsLoading(false);
+    }
+
     const selectNote = id => {
         const note = noteList.find(row => row.id === id);
 
         setTitle(note.title);
         setContent(note.content);
-    }
-
-    const getNote = async () => {
-        setIsLoading(true);
-        const noteId = history.location.pathname.match(/\/note\/note_(.*)/);
-        if(!noteId) {
-            setIsLoading(false);
-            return;
-        }
-
-        const response = await axios.get('/note/get-note', {
-                headers: {noteId: noteId[0]}
-        });
-
-        const {noteData, message, status} = await response.data;
-    
-        user.checkJwtExpired(message);
-
-        if(status === 0) alert(message.message);
-        if(noteData) {
-            setTitle(noteData.title);
-            setContent(noteData.content);
-        }
-        
-        setIsLoading(false);
     }
 
     useEffect(() => {
@@ -130,7 +152,8 @@ const useNote = (user) => {
         isLoading,
         selectNote,
         createNote,
-        updateNote
+        updateNote,
+        deleteNote
     }
 }
 

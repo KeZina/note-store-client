@@ -1,6 +1,5 @@
-import React, { useContext, useState, useEffect, useMemo } from 'react';
+import React, { useContext, useState } from 'react';
 import { UserContext } from '../utils/context';
-import { useHistory } from 'react-router-dom';
 
 const Login = () => {
     const [name, setName] = useState('');
@@ -20,7 +19,7 @@ const Login = () => {
                         <input type = "text" value = {name} onChange = {e => setName(e.target.value)} minLength = "3" maxLength = "15" required />
                     </label>
                     <label>
-                        <h2>Pass:</h2>
+                        <h2>Password:</h2>
                         <input type = "password" value = {password} onChange = {e => setPassword(e.target.value)} minLength = "6" maxLength = "15" required />
                     </label>
                     <input type = "button" value = "Create profile" onClick = {createProfile}/>

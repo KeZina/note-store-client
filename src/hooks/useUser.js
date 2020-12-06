@@ -46,22 +46,21 @@ const useUser = () => {
         setIsLoading(false);
     }
 
-    const changePass = async e => {
-        e.preventDefault();
-
+    const changePass = async password => {
         setIsLoading(true);
 
         const response = await axios.post('/user/change-pass', {
             token: localStorage.getItem('token'), 
-            name, 
-            password: e.target.password.value
+            name,
+            password
         });
 
         const {message, status} = await response.data;
 
         checkJwtExpired(message);
+        if(status === 0) alert(message.message);
 
-        alert(message);
+        history.push('/');
         setIsLoading(false);
     }
 

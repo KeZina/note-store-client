@@ -31,9 +31,13 @@ const NoteList = () => {
                     <span>{row.title} </span>
                     <span>{created} </span>
                     <span>{updated} </span>
-                    <Link to = {`/note/note_${row.id}`} onClick = {() => note.selectNote(row.id)}>
-                        &#9776;
-                    </Link>
+                    <div>
+                        <Link to = {`/note/note_${row.id}`} onClick = {() => note.selectNote(row.id)}>
+                            &#9776;
+                        </Link>
+                        <input type = 'button' className = 'note-list-input' value = '&#10008;' onClick = {() => note.deleteNote(row.title, row.id)} />
+                    </div>
+
                 </div>
             )
         })       
